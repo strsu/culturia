@@ -29,7 +29,7 @@ services:
       - ./nginx/html:/usr/share/nginx/html/
 
   postgres:
-    image: postgres:13
+    image: postgis/postgis:13-3.3
     restart: always
     environment:
       - POSTGRES_DB=postgres
@@ -38,6 +38,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PORT=5432
     ports:
-      - "54321:5432"
+      - "54329:5432"
     volumes:
       - ./.pgdata:/var/lib/postgresql/data

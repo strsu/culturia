@@ -1,15 +1,18 @@
 from config.settings.base import *
+from config.cron_jobs import *
 
 DEBUG = True
 
+CRONTAB_DJANGO_SETTINGS_MODULE = "config.settings.development"
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        "ENGINE": "django.contrib.gis.db.backends.postgis",
+        "NAME": ENV["POSTGRES_DB"],
+        "USER": ENV["POSTGRES_USER"],
+        "PASSWORD": ENV["POSTGRES_PASSWORD"],
+        "HOST": ENV["POSTGRES_HOST"],
+        "PORT": ENV["POSTGRES_PORT"],
     }
 }
 

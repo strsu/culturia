@@ -12,17 +12,19 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import logging
 from datetime import timedelta
+from dotenv import dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+ENV_FILE = str(Path(BASE_DIR)) + "/.env"
+ENV = dotenv_values(ENV_FILE)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = ENV["SECRET_KEY"]
 
 ALLOWED_HOSTS = ["*"]
 
@@ -41,7 +43,11 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "drf_yasg",
     "corsheaders",  # CORS 관련 추가
+    "django_crontab",
     "api.v1.user",
+    "api.v1.culture",
+    "api.v1.actor",
+    "api.v1.model_history",
 ]
 
 MIDDLEWARE = [
