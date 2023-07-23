@@ -1,0 +1,43 @@
+version: '3.3'
+name: culturia
+services:
+  backend:
+    build:
+      context: ./backend
+    restart: always
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/opt
+    command: /opt/scripts/start.sh
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    volumes:
+      - ./backend/media/:/media/
+      - ./backend/staticfiles/:/staticfiles/
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/error-page.conf:/etc/nginx/snippets/error-page.conf:ro
+      - ./nginx/log:/var/log/nginx/
+      - ./nginx/ssl:/usr/share/nginx/ssl/
+      - ./nginx/html:/usr/share/nginx/html/
+
+  postgres:
+    image: postgres:13
+    restart: always
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PORT=5432
+    ports:
+      - "54321:5432"
+    volumes:
+      - ./.pgdata:/var/lib/postgresql/data
